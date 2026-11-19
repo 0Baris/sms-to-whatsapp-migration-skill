@@ -16,6 +16,7 @@
 - En fazla 10 buton; en fazla 2 URL, 1 telefon, 1 Kodu Kopyala.
 - Buton metni en fazla 25 karakter.
 - URL butonunda değişken yalnız sonda olabilir: `https://alanadi.com/yol/{{1}}`. Ayrıca örnek tam adres istenir.
+- Şablon API ile gönderilecekse, buton değişkenini API'nin doldurup dolduramadığını Verimor dokümanından kontrol et (SKILL.md adım 9). Dolduramıyorsa sabit URL kullan.
 - Hızlı yanıt butonları gelen cevabı işleyecek bir webhook ister. Yoksa URL butonu kullan.
 
 ## Pazarlama sayılmama (Hizmet şablonu)

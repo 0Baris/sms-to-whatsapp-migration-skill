@@ -32,6 +32,7 @@ Bu skill iki modda çalışır; kullanıcının isteğinden hangisi olduğunu an
 6. **Çıktı:** şablon dosyası + gönderim eşlemesi.
 7. **Onay al:** hazırlanan şablonların tamamını kullanıcıya göster, açıkça onay iste. Onay gelmeden 8. adıma geçme.
 8. **Oluştur:** onaylanan şablonları Verimor panelinde oluştur, `references/verimor-panel.md`.
+9. **Gönderim kodu (kullanıcı isterse):** Verimor'un güncel dokümanına bakarak projeye gönderim katmanını yaz.
 
 Her adımın sonunda kullanıcıya kısa bilgi ver. Şablonu Meta'ya göndermek dışa açık bir işlemdir; gönderilen şablon Meta'da incelenir ve hesap kalitesini etkiler.
 
@@ -125,7 +126,7 @@ Proje içinde, kullanıcının uygun gördüğü yere (varsayılan `docs/whatsap
 - **Gönderim eşlemesi:** şablon değişkenlerinin koddaki hangi alandan dolacağı (`{{1}}` ← `user.firstName`). Kod tarafını yazacak geliştirici bunu kullanır.
 - Dönüştürülmeyen mesajlar ve nedeni.
 
-Kullanıcı isterse aynı içeriği JSON olarak da ver (ad, kategori, dil, bileşenler); Verimor API'si ya da başka bir araçla toplu oluşturmak için işe yarar. Gönderim kodunu yazmak bu skill'in işi değil; kullanıcı isterse ayrı bir iş olarak ele al.
+Kullanıcı isterse aynı içeriği JSON olarak da ver (ad, kategori, dil, bileşenler).
 
 ## 7. Onay al
 
@@ -147,6 +148,38 @@ Altına dönüştürülmeyen mesajları ve nedenlerini, Pazarlama şablonları i
 
 Onaylanan şablonları, tarayıcı aracın varsa panelde oluştur. Adımlar, alan sınırları ve sık hatalar: `references/verimor-panel.md`. Yalnız onaylananları ve kullanıcının istediği sayıda oluştur. Bitince her şablonun panelde "Beklemede" göründüğünü doğrula ve listeyi kullanıcıya bildir.
 
+## 9. Gönderim kodu
+
+Kullanıcı isterse şablonları projeden gönderecek kodu da yaz. API değişebilir: uç nokta, alan adı ya da sınır ezberden yazma, her seferinde **Verimor'un güncel dokümanını oku**.
+
+| Kaynak | Adres |
+|---|---|
+| Doküman dizini (LLM için) | https://docs.verimor.com.tr/llms.txt |
+| Tüm doküman tek dosyada | https://docs.verimor.com.tr/llms-full.txt |
+| WhatsApp API girişi ve örnek senaryolar | https://docs.verimor.com.tr/developer/whatsapp/giris |
+| WhatsApp API referansı | https://docs.verimor.com.tr/developer/api-reference/whatsapp |
+| OpenAPI şeması | https://docs.verimor.com.tr/openapi/whatsapp.yaml |
+| Hata kodları | https://docs.verimor.com.tr/developer/errors |
+
+Dokümandan şunları doğrula, sonra yaz:
+
+- Kimlik doğrulama, base URL, Hizmet ve Doğrulama için uç noktalar, istek gövdesi.
+- **Hangi kategoriler API ile gönderilebiliyor.** Pazarlama API'den kapalıysa pazarlama şablonları OİM'deki Kampanyalar ekranından gönderilir; kodda pazarlama gönderimi yazma, kullanıcıya söyle.
+- **Buton değişkenleri API ile doldurulabiliyor mu.** Desteklenmiyorsa dinamik URL butonlu şablonlar API'den gönderilemez: şablonu sabit URL'ye çevir (`https://alanadi.com/davetler`, kullanıcı oturumla girer) ya da bağlantıyı gövdeye taşı. Bunu 3. adımda şablonu tasarlarken de kontrol et; onay alınmış şablonu sonradan değiştirmek yeniden Meta onayı ister.
+- Gelen cevaplar (hızlı yanıt, kullanıcının yazdığı mesaj) için webhook var mı. Yoksa hızlı yanıt butonlu senaryoları önerme.
+- Mesaj durumu sorgulama, hız sınırı, hangi hatalarda yeniden deneneceği, OTP kod uzunluğu sınırı.
+
+Kodu yazarken:
+
+- Projenin mevcut bildirim katmanına bağlan (yeni bir paralel sistem kurma). Kanal seçimi varsa WhatsApp'ı bir kanal olarak ekle; ulaşmazsa SMS ya da e-postaya düşme kuralını kullanıcıya sor.
+- API anahtarı yalnız sunucu tarafında, ortam değişkeninde; istemci koduna, depoya, loga girmez.
+- Şablon adı, dil ve değişken sırası 6. adımdaki eşlemeyle birebir aynı olsun; değişken sayısını tek yerde tanımla.
+- Telefonu ülke koduyla, boşluksuz biçime getir (projede bir normalleştirme yardımcı fonksiyonu varsa onu kullan).
+- Gönderim yanıtındaki mesaj kimliğini kaydet; durum takibi ve gelen cevabı eşlemek için gerekir.
+- Yalnız geçici hatalarda (hız sınırı, 5xx, ağ) artan beklemeyle yeniden dene; doğrulama ve yetki hatalarında deneme.
+- Çocuk adı, telefon, e-posta loglara ve hata mesajlarına girmesin.
+- Projenin test düzenine uyan bir test yaz (en az: doğru şablon adı ve değişken sırası, hata durumunda yeniden deneme kuralı). Gerçek API'ye istek atan test yazma.
+
 ## Çocuk ve kişisel veri
 
 - Alıcı veli ya da mesaj bir çocukla ilgiliyse çocuğun adı yalnız "Ad S." biçiminde geçsin. Doğum tarihi, sağlık, adres, kimlik numarası şablona girmez.
@@ -161,3 +194,4 @@ Onaylanan şablonları, tarayıcı aracın varsa panelde oluştur. Adımlar, ala
 - Kaynak mesajda olmayan bilgi, vaat ya da tutar ekleme.
 - Hesap ayarlarını, ödeme yöntemini, entegrasyonu değiştirme.
 - Projenin kodunu (gönderim katmanı) kullanıcı istemeden değiştirme.
+- Verimor API ayrıntılarını ezberden yazma; 9. adımdaki dokümana bak.

@@ -16,6 +16,7 @@ Claude'a "bu projedeki SMS şablonlarımı WhatsApp'a çevirmek istiyorum" ya da
 6. Şablon dosyasını ve **gönderim eşlemesini** (hangi değişken koddaki hangi alandan dolar) projenize yazar.
 7. Hazırladığı şablonların tamamını size gösterir ve **onayınızı ister**.
 8. Onayladıklarınızı Verimor panelinde oluşturup Meta onayına gönderir.
+9. İsterseniz gönderim kodunu da yazar: Verimor'un güncel dokümanını ([llms.txt](https://docs.verimor.com.tr/llms.txt), [WhatsApp API](https://docs.verimor.com.tr/developer/whatsapp/giris), [OpenAPI](https://docs.verimor.com.tr/openapi/whatsapp.yaml)) okuyup projenizin bildirim katmanına bağlar.
 
 ## Kurulum
 
@@ -55,7 +56,7 @@ Bu projede WhatsApp'ı SMS'ten farklı nasıl kullanabiliriz? Butonla cevap alı
 ## Sınırlar
 
 - Pazarlama şablonlarını hazırlar, ama göndermek için alıcıların ticari ileti izni (İYS, WhatsApp opt-in) sizin sisteminizde olmalı.
-- Gönderim kodunu yazmaz; eşleme tablosunu verir.
+- API ayrıntılarını ezberlemez; her seferinde Verimor dokümanına bakar. API değişirse skill güncellenmeden çalışmaya devam eder.
 - Panelde oluşturma için tarayıcı aracı ve Verimor'da bağlı bir WhatsApp Business hesabı gerekir.
 - Şablonu Meta'ya göndermeden önce her zaman onayınızı ister.
 

@@ -6,7 +6,7 @@ WhatsApp, SMS'in pahalı bir kopyası olarak kullanılırsa boşa gider. Farkı 
 
 | Araç | Ne işe yarar | Gereken |
 |---|---|---|
-| **Hızlı yanıt butonu** (en fazla 10) | "Geliyorum / Gelemiyorum", "Onayla / Ertele", "Evet / Hayır" gibi tek dokunuşla cevap | Gelen cevabı işleyen webhook (Verimor gelen mesaj bildirimi) ve cevabı kayda yazan kod |
+| **Hızlı yanıt butonu** (en fazla 10) | "Geliyorum / Gelemiyorum", "Onayla / Ertele", "Evet / Hayır" gibi tek dokunuşla cevap | Gelen cevabı işleyen webhook ve cevabı kayda yazan kod. Verimor'da desteklenip desteklenmediğini güncel dokümandan kontrol et (SKILL.md adım 9) |
 | **URL butonu** (en fazla 2) | Ayrıntı, ödeme, form, belge sayfası | Tokenlı ya da oturumlu sayfa |
 | **Telefon butonu** | Tek dokunuşla arama (kulüp, destek) | Sabit numara |
 | **Kodu Kopyala** | OTP | Doğrulama şablonu |
