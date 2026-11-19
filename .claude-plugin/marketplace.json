@@ -1,0 +1,11 @@
+{
+  "name": "verimor-whatsapp-sablon",
+  "owner": { "name": "0Baris" },
+  "plugins": [
+    {
+      "name": "verimor-whatsapp-sablon",
+      "source": "./plugins/verimor-whatsapp-sablon",
+      "description": "Verimor OİM üzerinden WhatsApp Hizmet ve Doğrulama şablonu yazar, turkish-humanizer ile doğallaştırır, Meta kurallarına göre kontrol edip oluşturur."
+    }
+  ]
+}
