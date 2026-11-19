@@ -1,7 +1,0 @@
-{
-  "name": "verimor-whatsapp-sablon",
-  "version": "1.0.0",
-  "description": "Verimor OİM üzerinden WhatsApp Hizmet (utility) ve Doğrulama (OTP) şablonu yazar, turkish-humanizer ile doğallaştırır, Meta kurallarına ve pazarlama sayılmama ölçütlerine göre kontrol edip panelde oluşturur.",
-  "author": { "name": "0Baris" },
-  "license": "MIT"
-}
