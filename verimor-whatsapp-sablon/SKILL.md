@@ -1,6 +1,6 @@
 ---
 name: verimor-whatsapp-sablon
-description: Bir projedeki mevcut SMS ve e-posta mesajlarını WhatsApp Business şablonlarına çevirir ve Verimor üzerinden Meta onayına hazırlar. Projeyi tarayıp mesajları bulur, her birini Hizmet (utility) ya da Doğrulama (OTP) şablonuna dönüştürür, metni turkish-humanizer ile doğallaştırır, Meta kurallarına ve pazarlama sayılmama ölçütlerine göre kontrol eder, şablon dosyası ve gönderim eşlemesi üretir, istenirse Verimor panelinde oluşturur. "SMS şablonlarımı WhatsApp'a çevir", "e-postalarımı WhatsApp şablonu yap", "Verimor WhatsApp şablonu oluştur", "utility / OTP şablonu" denince kullan.
+description: Bir projedeki mevcut SMS ve e-posta mesajlarını WhatsApp Business şablonlarına çevirir ve Verimor üzerinden Meta onayına hazırlar. Projeyi tarayıp mesajları bulur, her birini Hizmet (utility), Doğrulama (OTP) ya da Pazarlama (marketing) şablonuna dönüştürür, metni turkish-humanizer ile doğallaştırır, Meta kurallarına göre kontrol eder, şablon dosyası ve gönderim eşlemesi üretir, kullanıcının onayını aldıktan sonra Verimor panelinde oluşturur. "SMS şablonlarımı WhatsApp'a çevir", "e-postalarımı WhatsApp şablonu yap", "Verimor WhatsApp şablonu oluştur", "utility / OTP / kampanya şablonu" denince kullan.
 ---
 
 # SMS ve e-postadan Verimor WhatsApp şablonuna
@@ -20,14 +20,15 @@ Kullanıcı "bu projedeki SMS (ya da e-posta) mesajlarımı WhatsApp'a taşımak
 ## Akış
 
 1. **Envanter:** projedeki mesajları bul (aşağıda).
-2. **Sınıflandır:** her mesaj için Hizmet / Doğrulama / kapsam dışı.
+2. **Sınıflandır:** her mesaj için Hizmet / Doğrulama / Pazarlama.
 3. **Dönüştür:** şablon adı, gövde, değişken eşlemesi, örnek değerler, buton.
-4. **Doğallaştır:** turkish-humanizer, tür "Gündelik".
+4. **Doğallaştır:** turkish-humanizer (Hizmet ve Doğrulama "Gündelik", Pazarlama "Deneme-blog" ölçülü).
 5. **Kontrol et:** `references/meta-kurallari.md` listesi.
-6. **Çıktı:** şablon dosyası + gönderim eşlemesi, kullanıcıya özet.
-7. **Oluştur (isteğe bağlı, kullanıcı onayıyla):** Verimor paneli, `references/verimor-panel.md`.
+6. **Çıktı:** şablon dosyası + gönderim eşlemesi.
+7. **Onay al:** hazırlanan şablonların tamamını kullanıcıya göster, açıkça onay iste. Onay gelmeden 8. adıma geçme.
+8. **Oluştur:** onaylanan şablonları Verimor panelinde oluştur, `references/verimor-panel.md`.
 
-Her adımın sonunda kullanıcıya kısa bilgi ver. Şablonu Meta'ya göndermek dışa açık bir işlemdir: metinleri kullanıcı onaylamadan gönderme.
+Her adımın sonunda kullanıcıya kısa bilgi ver. Şablonu Meta'ya göndermek dışa açık bir işlemdir; gönderilen şablon Meta'da incelenir ve hesap kalitesini etkiler.
 
 ## 1. Envanter: mesajları bul
 
@@ -50,7 +51,7 @@ Her mesaj için bir satır çıkar:
 - **Bağlantı:** varsa hangi sayfaya gidiyor, token içeriyor mu
 - **Kod süresi:** doğrulama mesajıysa koddaki geçerlilik süresi
 
-Envanteri kullanıcıya tablo olarak göster ve hangilerinin taşınacağını sor. Varsayılan öneri: kullanıcıyı bir işlem yapmaya çağıran ya da durumunu bildiren mesajlar önce; bülten ve kampanya hariç.
+Envanteri kullanıcıya tablo olarak göster ve hangilerinin taşınacağını sor.
 
 ## 2. Sınıflandır
 
@@ -58,9 +59,17 @@ Envanteri kullanıcıya tablo olarak göster ve hangilerinin taşınacağını s
 |---|---|
 | **Hizmet / UTILITY** | Kullanıcının başlattığı ya da hesabıyla ilgili belli bir işleme bağlı: davet, onay isteği, randevu/etkinlik bilgisi ve değişikliği, sipariş, ödeme hatırlatması, başvuru sonucu, durum değişikliği |
 | **Doğrulama / AUTHENTICATION** | Tek kullanımlık kod: kayıt doğrulama, giriş, şifre sıfırlama, 2FA |
-| **Kapsam dışı** | Kampanya, indirim, bülten, genel duyuru, "uygulamamızı deneyin". Bunlar Pazarlama kategorisidir, İYS izni ve ayrı onay ister. Kullanıcıya söyle, dönüştürme. |
+| **Pazarlama / MARKETING** | Kampanya, indirim, bülten, genel duyuru, yeni özellik, geri kazanım ("seni özledik"), etkinlik daveti |
 
-Pazarlama sayılmama ölçütleri `references/meta-kurallari.md` içinde. Sınırda kalan bir mesajı (ör. "etkinlik iptal edildi" duyurusu) Hizmet olarak yazabilirsin; tek işleme bağla ve tanıtım dili kullanma.
+Kategori gönderim ücretini ve kuralları belirler: Pazarlama en pahalı kategoridir ve izin ister. Bu yüzden bir mesaj gerçekten belli bir işleme bağlıysa Hizmet olarak yaz (ölçütler `references/meta-kurallari.md`). Tanıtım içeriyorsa dürüstçe Pazarlama yap; Hizmet kılığına sokma, Meta kategoriyi kendisi değiştirir ve hesap kalitesi düşer.
+
+### Pazarlama şablonları için ek kurallar
+
+- **İzin:** Alıcının ticari ileti onayı olmalı (Türkiye'de İYS kaydı, ayrıca WhatsApp için açık opt-in). Projede izin kaydı yoksa kullanıcıya söyle; şablonu yine hazırlayabilirsin ama göndermeden önce izin altyapısı gerekir.
+- **Ret yolu:** Metne ya da hızlı yanıt butonuna çıkış seçeneği koy ("Bu mesajları almak istemiyorsan DUR yaz" ya da "Abonelikten çık" butonu). Verimor'daki Ret Listesi bu cevapları toplar.
+- **Görsel ve medya:** Pazarlamada başlık olarak görsel/video kullanılabilir; kaynakta varsa öner, yoksa ekleme.
+- **Dil:** Abartı ve baskı yok ("son şans", "kaçırma" yerine tarih ve koşulu yaz). Kaynak mesajda olmayan indirim, tutar ya da vaat ekleme.
+- **Çocuklar:** Alıcı veli olsa da pazarlama mesajı çocuğa yönelik olmasın; çocuk adı pazarlama şablonuna girmez.
 
 ## 3. Dönüştür
 
@@ -100,9 +109,25 @@ Proje içinde, kullanıcının uygun gördüğü yere (varsayılan `docs/whatsap
 
 Kullanıcı isterse aynı içeriği JSON olarak da ver (ad, kategori, dil, bileşenler); Verimor API'si ya da başka bir araçla toplu oluşturmak için işe yarar. Gönderim kodunu yazmak bu skill'in işi değil; kullanıcı isterse ayrı bir iş olarak ele al.
 
-## 7. Verimor'da oluştur (isteğe bağlı)
+## 7. Onay al
 
-Kullanıcı metinleri onayladıysa ve tarayıcı aracın varsa panelde oluşturabilirsin. Adımlar, alan sınırları ve sık hatalar: `references/verimor-panel.md`. Kullanıcı kaç tane istiyorsa o kadar oluştur; hepsini birden gönderme zorunluluğu yok.
+İş bitince, hiçbir şablonu göndermeden önce kullanıcıya hazırlananların tamamını tek mesajda göster:
+
+```
+| # | Ad | Kategori | Gövde | Buton | Örnek değerler |
+```
+
+Altına dönüştürülmeyen mesajları ve nedenlerini, Pazarlama şablonları için izin durumunu yaz. Sonra açıkça sor:
+
+> Bu şablonları Verimor'da oluşturup Meta onayına göndereyim mi? Hepsini mi, yoksa yalnız seçtiklerini mi?
+
+- Kullanıcı "evet" demeden ya da şablon numaralarını seçmeden gönderme.
+- Kullanıcı bir metni değiştirirse 4. ve 5. adımları o şablon için tekrarla, değişen hâli yeniden göster.
+- Daha önceki bir onay sonraki şablonları kapsamaz; yeni ya da değişen her şablon için yeniden sor.
+
+## 8. Verimor'da oluştur
+
+Onaylanan şablonları, tarayıcı aracın varsa panelde oluştur. Adımlar, alan sınırları ve sık hatalar: `references/verimor-panel.md`. Yalnız onaylananları ve kullanıcının istediği sayıda oluştur. Bitince her şablonun panelde "Beklemede" göründüğünü doğrula ve listeyi kullanıcıya bildir.
 
 ## Çocuk ve kişisel veri
 
@@ -112,8 +137,9 @@ Kullanıcı metinleri onayladıysa ve tarayıcı aracın varsa panelde oluştura
 
 ## Yapma
 
-- Kullanıcı onaylamadan şablonu Meta'ya gönderme.
+- Kullanıcı 7. adımda açıkça onaylamadan şablonu Meta'ya gönderme.
 - Pazarlama mesajını Hizmet kategorisine sokmaya çalışma; Meta kategoriyi değiştirir, hesap kalitesi düşer.
+- İzin altyapısı olmadan Pazarlama şablonunun gönderime hazır olduğunu söyleme.
 - Kaynak mesajda olmayan bilgi, vaat ya da tutar ekleme.
 - Hesap ayarlarını, ödeme yöntemini, entegrasyonu değiştirme.
 - Projenin kodunu (gönderim katmanı) kullanıcı istemeden değiştirme.

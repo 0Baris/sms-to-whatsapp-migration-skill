@@ -27,6 +27,14 @@ Meta metni okuyup kategoriyi Pazarlama'ya çevirebilir. Hizmet olarak kalması i
 - Şunlar olmasın: indirim, fırsat, kampanya, "hemen", "kaçırma", "yeni", ürün/özellik tanıtımı, birden fazla ürün, genel uygulama daveti.
 - Ödeme hatırlatmasında baskı dili yok: tutar, dönem, son gün, "ödemeyi yaptıysan dikkate alma".
 
+## Pazarlama
+
+- Alıcının ticari ileti izni olmalı (İYS + WhatsApp opt-in).
+- Çıkış yolu olsun: "DUR yaz" metni ya da "Abonelikten çık" hızlı yanıt butonu.
+- Başlıkta görsel/video kullanılabilir.
+- Tarih ve koşul net olsun; abartı, baskı, uydurma indirim yok.
+- Çocuğa yönelik pazarlama yok; çocuk adı girmez.
+
 ## Doğrulama (OTP)
 
 - Gövdeyi Meta üretir ("{{1}} doğrulama kodunuzdur."). Başlık, URL, medya, emoji yok.
@@ -44,7 +52,7 @@ Meta metni okuyup kategoriyi Pazarlama'ya çevirebilir. Hizmet olarak kalması i
 
 ## Kontrol listesi (her şablon)
 
-- [ ] Kategori doğru; pazarlama ölçütlerinden hiçbiri yok
+- [ ] Kategori doğru: Hizmet ise pazarlama ölçütlerinden hiçbiri yok; Pazarlama ise izin durumu ve çıkış yolu var
 - [ ] Ad kurallı
 - [ ] Gövde değişkenle başlamıyor/bitmiyor; değişkenler sıralı, yan yana değil
 - [ ] Her değişkenin örnek değeri var; örneklerde gerçek kişisel veri yok
@@ -53,4 +61,4 @@ Meta metni okuyup kategoriyi Pazarlama'ya çevirebilir. Hizmet olarak kalması i
 - [ ] Hitap tüm şablonlarda aynı
 - [ ] Çocuk adı "Ad S."; hassas veri yok
 - [ ] Gönderim eşlemesi (değişken ← kod alanı) yazıldı
-- [ ] Kullanıcı metni onayladı
+- [ ] Kullanıcı bu şablonu göndermeyi açıkça onayladı (SKILL.md adım 7)
