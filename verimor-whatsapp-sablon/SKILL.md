@@ -1,13 +1,18 @@
 ---
 name: verimor-whatsapp-sablon
-description: Bir projedeki mevcut SMS ve e-posta mesajlarını WhatsApp Business şablonlarına çevirir ve Verimor üzerinden Meta onayına hazırlar. Projeyi tarayıp mesajları bulur, her birini Hizmet (utility), Doğrulama (OTP) ya da Pazarlama (marketing) şablonuna dönüştürür, metni turkish-humanizer ile doğallaştırır, Meta kurallarına göre kontrol eder, şablon dosyası ve gönderim eşlemesi üretir, kullanıcının onayını aldıktan sonra Verimor panelinde oluşturur. "SMS şablonlarımı WhatsApp'a çevir", "e-postalarımı WhatsApp şablonu yap", "Verimor WhatsApp şablonu oluştur", "utility / OTP / kampanya şablonu" denince kullan.
+description: Bir proje için WhatsApp Business şablonları tasarlar ve Verimor üzerinden Meta onayına hazırlar. İki iş yapar - mevcut SMS ve e-posta mesajlarını WhatsApp'a taşır ya da projenin olaylarından WhatsApp'a özgü yeni senaryolar (iki yönlü onay, hızlı yanıt butonu, belge, sohbet açan bildirim) üretir. Projeyi tarayıp mesajları ve olayları bulur, her birini Hizmet (utility), Doğrulama (OTP) ya da Pazarlama (marketing) şablonuna dönüştürür, metni turkish-humanizer ile doğallaştırır, Meta kurallarına göre kontrol eder, şablon dosyası ve gönderim eşlemesi üretir, kullanıcının onayını aldıktan sonra Verimor panelinde oluşturur. "SMS şablonlarımı WhatsApp'a çevir", "e-postalarımı WhatsApp şablonu yap", "Verimor WhatsApp şablonu oluştur", "WhatsApp için yeni senaryolar düşün", "utility / OTP / kampanya şablonu" denince kullan.
 ---
 
-# SMS ve e-postadan Verimor WhatsApp şablonuna
+# Verimor WhatsApp şablonları: taşı ya da yeni senaryo üret
 
-Kullanıcı "bu projedeki SMS (ya da e-posta) mesajlarımı WhatsApp'a taşımak istiyorum" der. Bu skill projedeki mesajları bulur, her birini Meta'nın onaylayacağı bir WhatsApp şablonuna çevirir ve Verimor'da oluşturulacak hâle getirir.
+İşletmenin başlattığı her WhatsApp mesajı onaylı bir şablonla gider. Şablonun metni sabittir, yalnız `{{1}}`, `{{2}}` gibi değişkenler gönderimde dolar.
 
-İşletmenin başlattığı her WhatsApp mesajı onaylı bir şablonla gider. Şablonun metni sabittir, yalnız `{{1}}`, `{{2}}` gibi değişkenler gönderimde dolar. Bu yüzden iş, serbest SMS/e-posta metnini kurallı bir şablona çevirmektir.
+Bu skill iki modda çalışır; kullanıcının isteğinden hangisi olduğunu anla, emin değilsen sor:
+
+- **Taşıma:** "SMS (ya da e-posta) mesajlarımı WhatsApp'a çevir." Mevcut mesajları bulur, şablona çevirir.
+- **Yeni senaryo:** "WhatsApp'ı nasıl kullanabiliriz?", "veliye yoklama sorusu atalım". Projenin olaylarından WhatsApp'a özgü senaryolar tasarlar.
+
+İki mod sık sık birleşir: taşırken bile "bu SMS WhatsApp'ta iki yönlü olursa daha iyi" önerisini yap. WhatsApp'ın amacı SMS'i birebir kopyalamak değil; butonla cevap, belge, sohbet açma gibi SMS'in yapamadığı şeylerdir. Yapı taşları ve kalıplar: `references/senaryolar.md`.
 
 ## Gerekenler
 
@@ -19,7 +24,7 @@ Kullanıcı "bu projedeki SMS (ya da e-posta) mesajlarımı WhatsApp'a taşımak
 
 ## Akış
 
-1. **Envanter:** projedeki mesajları bul (aşağıda).
+1. **Envanter:** projedeki mesajları ve olayları bul (aşağıda). Yeni senaryo modunda 1b'yi de uygula.
 2. **Sınıflandır:** her mesaj için Hizmet / Doğrulama / Pazarlama.
 3. **Dönüştür:** şablon adı, gövde, değişken eşlemesi, örnek değerler, buton.
 4. **Doğallaştır:** turkish-humanizer (Hizmet ve Doğrulama "Gündelik", Pazarlama "Deneme-blog" ölçülü).
@@ -51,7 +56,20 @@ Her mesaj için bir satır çıkar:
 - **Bağlantı:** varsa hangi sayfaya gidiyor, token içeriyor mu
 - **Kod süresi:** doğrulama mesajıysa koddaki geçerlilik süresi
 
-Envanteri kullanıcıya tablo olarak göster ve hangilerinin taşınacağını sor.
+Envanteri kullanıcıya tablo olarak göster ve hangilerinin taşınacağını sor. Her satırın yanına, WhatsApp'ta daha iyi olabileceği yeri yaz ("hızlı yanıtla iki yönlü olabilir", "makbuz belge başlığıyla gider").
+
+## 1b. Yeni senaryo üret
+
+Mesajı olmayan ama WhatsApp'a uygun olayları da ara: durum makineleri (`pending → confirmed`), onay bekleyen kayıtlar, son tarih alanları, hatırlatma cron'ları, "tekrar gönder" butonları, kullanıcının bugün telefonla ya da linkle cevap verdiği akışlar.
+
+Sonra:
+
+1. `references/senaryolar.md` içindeki tasarım sorularını kullanıcıya sor ya da koddan cevapla (cevap bekleniyor mu, webhook var mı, cevaplara insan bakacak mı).
+2. 3–8 senaryo öner; her biri için: olay, alıcı, şablon taslağı, butonlar, kullanıcı cevap verince ne olacağı, gereken kod (webhook, kayıt güncelleme), kategori.
+3. Sıralamayı fayda ve kolaylığa göre yap: önce bugünkü işi WhatsApp içinde bitirenler (onay, ertele, ödedim).
+4. Kullanıcının seçtiklerini 3. adımdan itibaren şablona çevir.
+
+Cevabı işlenmeyecek hızlı yanıt butonu önerme; bu durumda URL butonu kullan.
 
 ## 2. Sınıflandır
 

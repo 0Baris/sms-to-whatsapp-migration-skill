@@ -1,12 +1,14 @@
 # verimor-whatsapp-sablon
 
-Projenizdeki SMS ve e-posta mesajlarını WhatsApp Business şablonlarına çeviren, Verimor üzerinden Meta onayına hazırlayan bir [Claude skill'i](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview). Resmî bir Verimor ürünü değildir.
+Projeniz için WhatsApp Business şablonları tasarlayan, mevcut SMS ve e-postalarınızı taşıyan ya da WhatsApp'a özgü yeni senaryolar (butonla cevap, belge, sohbet açan bildirim) üreten ve bunları Verimor üzerinden Meta onayına hazırlayan bir [Claude skill'i](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview). Resmî bir Verimor ürünü değildir.
 
 ## Ne yapar?
 
-Claude'a "bu projedeki SMS şablonlarımı WhatsApp'a çevirmek istiyorum" dersiniz. Skill:
+Claude'a "bu projedeki SMS şablonlarımı WhatsApp'a çevirmek istiyorum" ya da "WhatsApp'ı bu projede nasıl kullanabiliriz?" dersiniz. Skill:
 
-1. Projeyi tarayıp SMS, e-posta ve doğrulama kodu mesajlarını bulur, bir envanter çıkarır.
+1. Projeyi tarayıp SMS, e-posta ve doğrulama kodu mesajlarını, ayrıca onay bekleyen kayıtlar, son tarihler, hatırlatmalar gibi olayları bulur.
+   - Taşımada her mesajın WhatsApp'ta nasıl daha iyi olacağını önerir.
+   - Yeni senaryo modunda iki yönlü akışlar önerir: "Geliyorum / Gelemiyorum", "Ödedim", belge başlıklı makbuz, sohbet açan bildirim.
 2. Her mesajı **Hizmet (utility)**, **Doğrulama (OTP)** ya da **Pazarlama (marketing)** şablonu olarak sınıflandırır.
 3. Metni şablona çevirir: ad, gövde, `{{1}}` değişkenleri, örnek değerler, URL butonu; pazarlamada izin ve çıkış yolunu ekler.
 4. Metni [turkish-humanizer](https://github.com/DevVettel/turkish-humanizer) ile doğallaştırır.
@@ -40,6 +42,10 @@ Bu projedeki SMS mesajlarını WhatsApp şablonuna çevir.
 
 ```
 E-posta bildirimlerimizden WhatsApp'a taşınabilecekleri çıkar, ilk üçünü Verimor'da oluştur.
+```
+
+```
+Bu projede WhatsApp'ı SMS'ten farklı nasıl kullanabiliriz? Butonla cevap alınabilecek senaryolar öner.
 ```
 
 ```
