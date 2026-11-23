@@ -1,9 +1,9 @@
 ---
-name: verimor-whatsapp-sablon
+name: verimor-whatsapp
 description: >-
   Projedeki SMS ve e-posta mesajlarını WhatsApp Business şablonlarına çevirir ya da yeni WhatsApp senaryoları önerir, sonra Verimor üzerinden Meta onayına hazırlar. Şunlarda kullan: "SMS şablonlarımı WhatsApp'a çevir", "Verimor", "WhatsApp template", "Verimor WhatsApp şablonu oluştur", "WhatsApp şablonu reddedildi", "META_019", "şablon Pazarlama'ya çevrildi", "Meta onayı", "utility / OTP / kampanya şablonu".
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Verimor WhatsApp şablonları: taşı ya da yeni senaryo üret

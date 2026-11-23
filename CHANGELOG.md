@@ -1,5 +1,11 @@
 # Değişiklik günlüğü
 
+## 1.1.0 (2026-11-23)
+
+- Skill'in adı `verimor-whatsapp` oldu (`/verimor-whatsapp` ile çağrılır). Eski ad `verimor-whatsapp-sablon` idi; elle kurduysanız eski klasörü silip yenisini kurun.
+- Tek satırlık kurulum scripti: `install.sh` (`--project`, `--with-humanizer`, `--ref`, eski kurulumu yedekler).
+- Repo adı `verimor-whatsapp-migration-skill`; claude.ai zip'i `verimor-whatsapp.zip`.
+
 ## 1.0.0 (2026-11-23)
 
 İlk sürüm.

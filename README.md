@@ -32,23 +32,66 @@ Hangi özellik neye ihtiyaç duyar:
 - **Tarayıcı aracı:** şablonları Verimor panelinde sizin yerinize oluşturmak için. Yoksa skill her şablon için panel alan sırasında kopyala-yapıştır kartı verir, siz elle oluşturursunuz.
 - Projeniz yoksa mesajlarınızı yapıştırmanız yeter.
 
-### Claude Code
+### Claude Code: tek satırda
 
-Bu repodaki `verimor-whatsapp-sablon/` klasörünü `~/.claude/skills/` altına kopyalayın:
+```bash
+curl -fsSL https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/install.sh | bash
+```
+
+turkish-humanizer'ı da birlikte kurmak için:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/install.sh | bash -s -- --with-humanizer
+```
+
+Script skill'i `~/.claude/skills/verimor-whatsapp` altına kurar, eski kurulum varsa yedekler. Yalnız bir projede kullanmak için o projenin klasöründe `--project` ekleyin; belirli bir sürüm için `--ref v1.1.0`. Git gerekmez, yalnız `curl` ve `tar`. Kurduktan sonra yeni oturum açın.
+
+### Claude Code: elle
 
 ```bash
 git clone https://github.com/0Baris/verimor-whatsapp-migration-skill.git
 mkdir -p ~/.claude/skills
-cp -r verimor-whatsapp-migration-skill/verimor-whatsapp-sablon ~/.claude/skills/
+cp -r verimor-whatsapp-migration-skill/verimor-whatsapp ~/.claude/skills/
 ```
-
-Yalnız tek projede kullanacaksanız aynı klasörü projenin `.claude/skills/` altına kopyalayın. Sonra yeni oturum açın.
 
 ### Claude (claude.ai, masaüstü, mobil)
 
-[Son sürümdeki](https://github.com/0Baris/verimor-whatsapp-migration-skill/releases/latest) `verimor-whatsapp-sablon.zip` dosyasını indirin (açmayın), **Ayarlar → Yetenekler → Skills → Skill yükle** ile yükleyin (menü adları sürüme göre değişebilir; Settings → Capabilities → Skills). Kod yürütme (code execution) açık olmalıdır.
+[Son sürümdeki](https://github.com/0Baris/verimor-whatsapp-migration-skill/releases/latest) `verimor-whatsapp.zip` dosyasını indirin (açmayın), **Ayarlar → Yetenekler → Skills → Skill yükle** ile yükleyin (menü adları sürüme göre değişebilir; Settings → Capabilities → Skills). Kod yürütme (code execution) açık olmalıdır.
+
+## Yapay zekâ ajanları için hazır prompt
+
+Aşağıdakilerden birini kopyalayıp ajanınıza yapıştırın.
+
+**Claude Code** (skill'i kurar ve çalıştırır):
+
+```text
+verimor-whatsapp skill'ini kur ve bu projede kullan.
+1. Şu komutu çalıştır: curl -fsSL https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/install.sh | bash -s -- --project
+2. Skill'in talimatlarını oku: .claude/skills/verimor-whatsapp/SKILL.md ve references/ altındaki dosyalar.
+3. Projedeki SMS, e-posta ve doğrulama kodu mesajlarını bul, WhatsApp şablonu adaylarını tablo olarak göster.
+4. Hiçbir şablonu Verimor'da oluşturmadan ya da Meta'ya göndermeden önce bana tam listeyi göster ve açık onayımı al.
+```
+
+**Skill desteği olmayan ajanlar** (Cursor, Codex, Gemini CLI, Windsurf ve benzerleri):
+
+```text
+WhatsApp Business şablonları hazırlamak için şu talimatları kullan ve bu projeye uygula:
+https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/verimor-whatsapp/SKILL.md
+Talimatın yönlendirdiği referans dosyalarını da oku (aynı adresteki references/ klasörü: verimor-panel.md, meta-kurallari.md, senaryolar.md).
+Adımları sırayla izle: ön kontrol, mesaj envanteri, sınıflandırma, dönüştürme, kontrol listesi.
+Şablonları önce bana göster; açık onayım olmadan Verimor panelinde oluşturma, Meta'ya gönderme, proje kodunu değiştirme.
+Verimor API ayrıntılarını ezberden yazma, https://docs.verimor.com.tr/llms.txt adresindeki güncel dokümana bak.
+```
 
 ## Kullanım
+
+Claude Code'da doğrudan çağırın:
+
+```
+/verimor-whatsapp
+```
+
+Ya da ne istediğinizi yazın, skill kendiliğinden devreye girer:
 
 ```
 Bu projedeki SMS mesajlarını WhatsApp şablonuna çevir.
