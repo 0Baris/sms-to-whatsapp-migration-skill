@@ -1,4 +1,4 @@
-# verimor-whatsapp-sablon
+# verimor-whatsapp-migration-skill
 
 **English summary:** An unofficial Claude skill (in Turkish) that turns a project's SMS and e-mail messages into WhatsApp Business templates, or designs new WhatsApp scenarios, for the Verimor platform.
 It classifies each template (utility, authentication, marketing), checks it against Meta's rules and creates it in the Verimor panel only after you approve.
@@ -37,16 +37,16 @@ Hangi özellik neye ihtiyaç duyar:
 Bu repodaki `verimor-whatsapp-sablon/` klasörünü `~/.claude/skills/` altına kopyalayın:
 
 ```bash
-git clone https://github.com/0Baris/verimor-whatsapp-sablon.git
+git clone https://github.com/0Baris/verimor-whatsapp-migration-skill.git
 mkdir -p ~/.claude/skills
-cp -r verimor-whatsapp-sablon/verimor-whatsapp-sablon ~/.claude/skills/
+cp -r verimor-whatsapp-migration-skill/verimor-whatsapp-sablon ~/.claude/skills/
 ```
 
 Yalnız tek projede kullanacaksanız aynı klasörü projenin `.claude/skills/` altına kopyalayın. Sonra yeni oturum açın.
 
 ### Claude (claude.ai, masaüstü, mobil)
 
-[`dist/verimor-whatsapp-sablon.zip`](dist/verimor-whatsapp-sablon.zip) dosyasını indirin (açmayın), **Ayarlar → Yetenekler → Skills → Skill yükle** ile yükleyin (menü adları sürüme göre değişebilir; Settings → Capabilities → Skills). Kod yürütme (code execution) açık olmalıdır.
+[Son sürümdeki](https://github.com/0Baris/verimor-whatsapp-migration-skill/releases/latest) `verimor-whatsapp-sablon.zip` dosyasını indirin (açmayın), **Ayarlar → Yetenekler → Skills → Skill yükle** ile yükleyin (menü adları sürüme göre değişebilir; Settings → Capabilities → Skills). Kod yürütme (code execution) açık olmalıdır.
 
 ## Kullanım
 
