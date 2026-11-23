@@ -1,10 +1,8 @@
-# verimor-whatsapp-migration-skill
+# SMS to WhatsApp Migration Skill for Claude (Verimor)
 
-**English summary:** An unofficial Claude skill (in Turkish) that turns a project's SMS and e-mail messages into WhatsApp Business templates, or designs new WhatsApp scenarios, for the Verimor platform.
-It classifies each template (utility, authentication, marketing), checks it against Meta's rules and creates it in the Verimor panel only after you approve.
-It can also write the sending code. Not affiliated with Verimor, Meta or WhatsApp.
+**Migrate SMS and e-mail notifications to WhatsApp Business templates with Claude.** This Claude skill scans your project, turns SMS, e-mail and OTP messages into WhatsApp templates (utility, authentication, marketing), checks them against Meta's template rules and creates them in the [Verimor](https://www.verimor.com.tr) panel after you approve. It can also design two-way WhatsApp flows (quick-reply buttons, documents) and write the sending code. Works with Claude Code, Claude in Chrome and other AI agents. The skill itself is in Turkish. Not an official Verimor product; not affiliated with Meta or WhatsApp.
 
-Projeniz için WhatsApp Business şablonları tasarlayan, mevcut SMS ve e-postalarınızı taşıyan ya da WhatsApp'a özgü yeni senaryolar (butonla cevap, belge, sohbet açan bildirim) üreten ve bunları Verimor üzerinden Meta onayına hazırlayan bir [Claude skill'i](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview). Resmî bir Verimor ürünü değildir.
+**SMS'ten WhatsApp'a geçiş için Claude skill'i.** Projenizdeki SMS ve e-posta bildirimlerini WhatsApp Business şablonlarına taşır ya da WhatsApp'a özgü yeni senaryolar (butonla cevap, belge, sohbet açan bildirim) üretir. Şablonları Meta kurallarına göre kontrol eder ve Verimor üzerinden Meta onayına hazırlar. Komut: `/whatsapp-migration`. Resmî bir Verimor ürünü değildir.
 
 ## Ne yapar?
 
@@ -22,41 +20,66 @@ Claude'a "bu projedeki SMS şablonlarımı WhatsApp'a çevirmek istiyorum" ya da
 8. Onayladıklarınızı Verimor panelinde oluşturup Meta onayına gönderir.
 9. İsterseniz gönderim kodunu da yazar: Verimor'un güncel dokümanını ([llms.txt](https://docs.verimor.com.tr/llms.txt), [WhatsApp API](https://docs.verimor.com.tr/developer/whatsapp/giris), [OpenAPI](https://docs.verimor.com.tr/openapi/whatsapp.yaml)) okuyup projenizin bildirim katmanına bağlar.
 
+## Gerekenler
+
+| Ne | Neden | Bağlantı |
+|---|---|---|
+| **Facebook hesabı ve WhatsApp Business** | Şablonlar Meta'da onaylanır; WhatsApp Business hesabınız bir Facebook (Meta Business) hesabına bağlı olmalı. Doğrulama (OTP) şablonu için ayrıca Meta işletme doğrulaması gerekir. | [business.facebook.com](https://business.facebook.com) |
+| **Verimor hesabı** | Şablonlar Verimor paneli (OİM) üzerinden açılır ve gönderilir. Hızlı başvuruda 2000 ücretsiz SMS kampanyası var (koşullar Verimor'da). | [Hızlı başvuru](https://oim.verimor.com.tr/abonelik-basvurusu) |
+| **Claude Code** | Projeyi tarar, şablonları hazırlar, isterseniz gönderim kodunu yazar. | [claude.com/claude-code](https://claude.com/claude-code) |
+| **Claude in Chrome** | Şablonları Verimor panelinde sizin yerinize oluşturur. Yoksa skill her şablon için kopyala-yapıştır kartı verir, siz elle oluşturursunuz. | [claude.com/chrome](https://claude.com/chrome) |
+
+Projeniz yoksa mesajlarınızı yapıştırmanız yeter. Metinleri doğallaştırmak için [turkish-humanizer](https://github.com/DevVettel/turkish-humanizer) kullanılır; aşağıdaki kurulum onu da kurar.
+
+## Sıfırdan başlıyorsanız (yeni Meta ve Verimor hesabı)
+
+Hesaplarınız hazırsa bu bölümü atlayın.
+
+1. **Verimor hesabını açın ve bakiye yükleyin.** [Hızlı başvuru](https://oim.verimor.com.tr/abonelik-basvurusu) ile hesap açın, OİM'den bakiye yükleyin. Bakiye hem WhatsApp mesajları hem de 2. adımdaki yönlendirme araması için gerekir; bakiye yoksa yönlendirme çalışmaz.
+2. **Numarayı doğrulamaya hazırlayın.** WhatsApp, numarayı doğrulama kodunu **telefonla arayarak** iletir. Verimor numaranızı kullanacaksanız OİM → Ses Hizmeti → **Akıllı Yönlendirme**'de şartı "Her zaman yönlendir" yapın ve kendi cep numaranızı listeye ekleyin. Ayar yaklaşık 3 dakikada devreye girer; doğrulama araması cebinize düşer. Yönlendirilen arama tarifenize göre bakiyeden düşer. İşiniz bitince yönlendirmeyi kapatabilirsiniz. ([Akıllı Yönlendirme rehberi](https://docs.verimor.com.tr/help/ses-hizmeti/akilli-yonlendirme))
+3. **Meta (Facebook) hesabınızı hazırlayın.** İşletme Yöneticisi'nde (Business Manager) yönetici olan bir Facebook hesabı gerekir. **Hesap yeni açıldıysa yaklaşık bir hafta bekleyin:** bu sürede profil ve işletme bilgilerini tamamlayın, hesabı normal kullanın. Yeni açılmış bir hesapla hemen WhatsApp Business bağlayıp şablon göndermek Meta'nın otomatik incelemesine takılabilir ve hesap kısıtlanabilir.
+4. **WhatsApp Business'ı Verimor'a bağlayın.** OİM → [Entegrasyonlar](https://oim.verimor.com.tr/integrations) → WhatsApp Business → **Kur** → **WhatsApp'ı Bağla**. Açılan Meta penceresinde numaranızı girip gelen doğrulama kodunu yazın. ([Kurulum](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/kurulum) · [Meta hesabını bağlama](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/meta-hesabi-baglama))
+5. **Doğrulama (OTP) şablonu gerekecekse işletme doğrulamasını başlatın.** Meta Business Suite → Ayarlar → Güvenlik Merkezi → İşletme Doğrulaması (şirket belgesi ister, 1–3 iş günü). Hizmet ve Pazarlama şablonları bunu beklemeden oluşur.
+6. **Skill'i kurun** (aşağıda) ve Claude Code'da `/whatsapp-migration` yazın.
+
+## Verimor dokümanları
+
+| Konu | Bağlantı |
+|---|---|
+| WhatsApp Business'a genel bakış | https://docs.verimor.com.tr/help/hizmetler/whatsapp-business |
+| Kurulum ve Meta hesabını bağlama | [kurulum](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/kurulum) · [meta-hesabi-baglama](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/meta-hesabi-baglama) |
+| Mesaj şablonları ve şablon oluşturma | [mesaj-sablonlari](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/mesaj-sablonlari) · [sablon-olusturma](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/sablon-olusturma) |
+| Kampanya, işletme profili, API anahtarları | [kampanyasi-olusturma](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/kampanyasi-olusturma) · [isletme-profili](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/isletme-profili) · [api-anahtarlari](https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/api-anahtarlari) |
+| Sorun çözümleri | https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/sorun-cozumleri |
+| Geliştirici: WhatsApp API | [giriş](https://docs.verimor.com.tr/developer/whatsapp/giris) · [API referansı](https://docs.verimor.com.tr/developer/api-reference/whatsapp) · [llms.txt](https://docs.verimor.com.tr/llms.txt) |
+
 ## Kurulum
-
-Önerilir: [turkish-humanizer](https://github.com/DevVettel/turkish-humanizer) skill'ini kurun (kurulum için o reponun README'sine bakın). Kurulu değilse skill kısa yazım kurallarıyla çalışır.
-
-Hangi özellik neye ihtiyaç duyar:
-
-- **Claude Code:** projeyi taramak ve gönderim kodunu yazmak için.
-- **Tarayıcı aracı:** şablonları Verimor panelinde sizin yerinize oluşturmak için. Yoksa skill her şablon için panel alan sırasında kopyala-yapıştır kartı verir, siz elle oluşturursunuz.
-- Projeniz yoksa mesajlarınızı yapıştırmanız yeter.
 
 ### Claude Code: tek satırda
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/0Baris/sms-to-whatsapp-migration-skill/main/install.sh | bash
 ```
 
-turkish-humanizer'ı da birlikte kurmak için:
+Script `whatsapp-migration` ile birlikte turkish-humanizer'ı da `~/.claude/skills/` altına kurar, eski kurulum varsa yedekler. Seçenekler (`... | bash -s -- <seçenek>`):
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/install.sh | bash -s -- --with-humanizer
-```
+- `--project`: yalnız içinde bulunduğunuz projeye kurar (`.claude/skills/`).
+- `--no-humanizer`: turkish-humanizer'ı kurmaz.
+- `--ref v1.2.0`: belirli bir sürümü kurar.
 
-Script skill'i `~/.claude/skills/verimor-whatsapp` altına kurar, eski kurulum varsa yedekler. Yalnız bir projede kullanmak için o projenin klasöründe `--project` ekleyin; belirli bir sürüm için `--ref v1.1.0`. Git gerekmez, yalnız `curl` ve `tar`. Kurduktan sonra yeni oturum açın.
+Git gerekmez, yalnız `curl` ve `tar`. Kurduktan sonra yeni oturum açın.
 
 ### Claude Code: elle
 
 ```bash
-git clone https://github.com/0Baris/verimor-whatsapp-migration-skill.git
+git clone https://github.com/0Baris/sms-to-whatsapp-migration-skill.git
 mkdir -p ~/.claude/skills
-cp -r verimor-whatsapp-migration-skill/verimor-whatsapp ~/.claude/skills/
+cp -r sms-to-whatsapp-migration-skill/whatsapp-migration ~/.claude/skills/
 ```
 
 ### Claude (claude.ai, masaüstü, mobil)
 
-[Son sürümdeki](https://github.com/0Baris/verimor-whatsapp-migration-skill/releases/latest) `verimor-whatsapp.zip` dosyasını indirin (açmayın), **Ayarlar → Yetenekler → Skills → Skill yükle** ile yükleyin (menü adları sürüme göre değişebilir; Settings → Capabilities → Skills). Kod yürütme (code execution) açık olmalıdır.
+[Son sürümdeki](https://github.com/0Baris/sms-to-whatsapp-migration-skill/releases/latest) `whatsapp-migration.zip` dosyasını indirin (açmayın), **Ayarlar → Yetenekler → Skills → Skill yükle** ile yükleyin (menü adları sürüme göre değişebilir; Settings → Capabilities → Skills). Kod yürütme (code execution) açık olmalıdır.
 
 ## Yapay zekâ ajanları için hazır prompt
 
@@ -65,9 +88,9 @@ Aşağıdakilerden birini kopyalayıp ajanınıza yapıştırın.
 **Claude Code** (skill'i kurar ve çalıştırır):
 
 ```text
-verimor-whatsapp skill'ini kur ve bu projede kullan.
-1. Şu komutu çalıştır: curl -fsSL https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/install.sh | bash -s -- --project
-2. Skill'in talimatlarını oku: .claude/skills/verimor-whatsapp/SKILL.md ve references/ altındaki dosyalar.
+whatsapp-migration skill'ini kur ve bu projede kullan.
+1. Şu komutu çalıştır: curl -fsSL https://raw.githubusercontent.com/0Baris/sms-to-whatsapp-migration-skill/main/install.sh | bash -s -- --project
+2. Skill'in talimatlarını oku: .claude/skills/whatsapp-migration/SKILL.md ve references/ altındaki dosyalar.
 3. Projedeki SMS, e-posta ve doğrulama kodu mesajlarını bul, WhatsApp şablonu adaylarını tablo olarak göster.
 4. Hiçbir şablonu Verimor'da oluşturmadan ya da Meta'ya göndermeden önce bana tam listeyi göster ve açık onayımı al.
 ```
@@ -76,7 +99,7 @@ verimor-whatsapp skill'ini kur ve bu projede kullan.
 
 ```text
 WhatsApp Business şablonları hazırlamak için şu talimatları kullan ve bu projeye uygula:
-https://raw.githubusercontent.com/0Baris/verimor-whatsapp-migration-skill/main/verimor-whatsapp/SKILL.md
+https://raw.githubusercontent.com/0Baris/sms-to-whatsapp-migration-skill/main/whatsapp-migration/SKILL.md
 Talimatın yönlendirdiği referans dosyalarını da oku (aynı adresteki references/ klasörü: verimor-panel.md, meta-kurallari.md, senaryolar.md).
 Adımları sırayla izle: ön kontrol, mesaj envanteri, sınıflandırma, dönüştürme, kontrol listesi.
 Şablonları önce bana göster; açık onayım olmadan Verimor panelinde oluşturma, Meta'ya gönderme, proje kodunu değiştirme.
@@ -88,7 +111,7 @@ Verimor API ayrıntılarını ezberden yazma, https://docs.verimor.com.tr/llms.t
 Claude Code'da doğrudan çağırın:
 
 ```
-/verimor-whatsapp
+/whatsapp-migration
 ```
 
 Ya da ne istediğinizi yazın, skill kendiliğinden devreye girer:
@@ -125,7 +148,7 @@ Bu projede WhatsApp'ı SMS'ten farklı nasıl kullanabiliriz? Butonla cevap alı
 
 ## Sorumluluk reddi
 
-Gayriresmî topluluk aracıdır. Verimor, Meta ve WhatsApp ile bağlantısı, onayı ya da sponsorluğu yoktur; adlar sahiplerinin markalarıdır ve yalnız uyumluluğu belirtmek için kullanılır. KVKK, İYS ve Meta politikalarıyla ilgili ifadeler genel bilgidir, hukuki tavsiye değildir; kurallar değişir. Son doğrulama: 23 Kasım 2026.
+Resmî bir Verimor ürünü değildir. Meta ve WhatsApp ile bağlantısı, onayı ya da sponsorluğu yoktur; adlar sahiplerinin markalarıdır ve yalnız uyumluluğu belirtmek için kullanılır. KVKK, İYS ve Meta politikalarıyla ilgili ifadeler genel bilgidir, hukuki tavsiye değildir; kurallar değişir. Son doğrulama: 23 Kasım 2026.
 
 ## Lisans
 

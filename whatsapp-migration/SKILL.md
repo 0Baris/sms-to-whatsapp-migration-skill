@@ -1,14 +1,14 @@
 ---
-name: verimor-whatsapp
+name: whatsapp-migration
 description: >-
   Projedeki SMS ve e-posta mesajlarını WhatsApp Business şablonlarına çevirir ya da yeni WhatsApp senaryoları önerir, sonra Verimor üzerinden Meta onayına hazırlar. Şunlarda kullan: "SMS şablonlarımı WhatsApp'a çevir", "Verimor", "WhatsApp template", "Verimor WhatsApp şablonu oluştur", "WhatsApp şablonu reddedildi", "META_019", "şablon Pazarlama'ya çevrildi", "Meta onayı", "utility / OTP / kampanya şablonu".
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Verimor WhatsApp şablonları: taşı ya da yeni senaryo üret
 
-Gayriresmî topluluk aracıdır; Verimor, Meta ya da WhatsApp ile bağlantısı yoktur. Hukuki tavsiye vermez.
+Resmî bir Verimor ürünü değildir; Meta ya da WhatsApp ile bağlantısı yoktur. Hukuki tavsiye vermez.
 
 İşletmenin başlattığı her WhatsApp mesajı onaylı bir şablonla gider. Şablonun metni sabittir, yalnız `{{1}}`, `{{2}}` gibi değişkenler gönderimde dolar.
 
@@ -21,11 +21,12 @@ Bu skill iki modda çalışır; kullanıcının isteğinden hangisi olduğunu an
 
 ## Gerekenler
 
-- **turkish-humanizer** skill'i (önerilir, şart değil): https://github.com/DevVettel/turkish-humanizer
-  - Kurulum için o reponun README'sine bak.
+- **turkish-humanizer** skill'i: https://github.com/DevVettel/turkish-humanizer. Bu skill'in kurulum scripti onu varsayılan olarak birlikte kurar.
   - Yüklü değilse kullanıcıya söyle, kurmasını öner. Kurulmadan devam edebilirsin: `references/meta-kurallari.md` içindeki kısa yazım kurallarıyla çalış ve raporda belirt.
-- Verimor'da bağlı bir WhatsApp Business hesabı (OİM → Entegrasyonlar → WhatsApp Business "Kurulu").
-- Doğrulama (OTP) şablonu için **Meta işletme doğrulaması**. Hizmet ve Pazarlama şablonları doğrulamasız da oluşur.
+- **Facebook (Meta Business) hesabına bağlı WhatsApp Business.** Doğrulama (OTP) şablonu için ayrıca **Meta işletme doğrulaması** gerekir; Hizmet ve Pazarlama şablonları doğrulamasız da oluşur.
+- **Verimor hesabı** ve OİM'de bağlı WhatsApp Business (OİM → Entegrasyonlar → WhatsApp Business "Kurulu"). Hesabı yoksa hızlı başvuru: https://oim.verimor.com.tr/abonelik-basvurusu. Bağlama adımları: https://docs.verimor.com.tr/help/hizmetler/whatsapp-business/meta-hesabi-baglama
+- **Claude in Chrome** (https://claude.com/chrome) ya da başka bir tarayıcı aracı: şablonları panelde oluşturmak için. Yoksa 8. adımdaki kopyala-yapıştır kartlarını ver.
+- Panelle ilgili güncel yardım sayfaları: https://docs.verimor.com.tr/help/hizmetler/whatsapp-business (şablon oluşturma, kampanya, sorun çözümleri).
 
 ## Akış
 
@@ -45,6 +46,14 @@ Her adımın sonunda kullanıcıya kısa bilgi ver. Şablonu Meta'ya göndermek 
 ## 0. Ön kontrol
 
 Tasarıma başlamadan şunları öğren; tarayıcı aracın yoksa kullanıcıya sor:
+
+- **Hesaplar yeni mi?** Verimor ya da Meta hesabı yoksa veya yeni açıldıysa önce kurulum sırasını anlat:
+  1. Verimor'da bakiye yükle.
+  2. WhatsApp doğrulama araması için numarayı OİM → Ses Hizmeti → Akıllı Yönlendirme ile kendi cep telefonuna yönlendir (https://docs.verimor.com.tr/help/ses-hizmeti/akilli-yonlendirme).
+  3. Yeni Meta hesabında WhatsApp'ı bağlamadan önce yaklaşık bir hafta bekleyip profili tamamla.
+  4. OİM → Entegrasyonlar → WhatsApp Business ile bağla.
+
+  Ayrıntı repodaki README'nin "Sıfırdan başlıyorsanız" bölümünde. Bağlantı kurulmadan şablon oluşturma adımına geçme. Envanter ve tasarım (1–6) beklerken yapılabilir.
 
 - **Mevcut şablonlar:** OİM → WhatsApp → Şablonlar listesindeki adları not et. Şablon varken adı kilitlidir; silinse bile aynı dilde 30 gün yeniden kullanılamaz. Pratikte reddedileni Düzenle ile düzelt ya da yeni ad seç; yeni adlar mevcutlarla çakışmasın. Zaten onaylı bir şablon işi görüyorsa yenisini yazma.
 - **Şablon dili:** projenin kullanıcı dilini al. Her dil aynı adlı ayrı bir şablon çevirisidir ve seçilen dil metinle uyuşmalıdır (Türkçe metne "English" seçme).

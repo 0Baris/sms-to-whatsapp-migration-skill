@@ -1,10 +1,19 @@
 # Değişiklik günlüğü
 
+## 1.2.0 (2026-11-23)
+
+- Skill'in adı `whatsapp-migration` oldu (`/whatsapp-migration`), repo adı `sms-to-whatsapp-migration-skill`. `verimor-whatsapp` adıyla kurduysanız eski klasörü silin, kurulum scriptini yeniden çalıştırın.
+- Kurulum scripti turkish-humanizer'ı varsayılan olarak birlikte kurar; istemeyen `--no-humanizer` kullanır.
+- README'ye "Gerekenler" tablosu: WhatsApp Business bağlı Facebook hesabı, Verimor hızlı başvuru (2000 ücretsiz SMS kampanyası), Claude Code, Claude in Chrome.
+- README'ye Verimor WhatsApp Business yardım ve geliştirici dokümanlarının listesi.
+- Kurulum sonu mesajı `/whatsapp-migration` komutunu gösterir.
+- README'ye "Sıfırdan başlıyorsanız" bölümü: bakiye yükleme, WhatsApp doğrulama araması için Akıllı Yönlendirme, yeni Meta hesabında bir hafta bekleme, Verimor'a bağlama, işletme doğrulaması. Skill'in ön kontrolü yeni hesapları bu sıraya yönlendirir.
+
 ## 1.1.0 (2026-11-23)
 
 - Skill'in adı `verimor-whatsapp` oldu (`/verimor-whatsapp` ile çağrılır). Eski ad `verimor-whatsapp-sablon` idi; elle kurduysanız eski klasörü silip yenisini kurun.
 - Tek satırlık kurulum scripti: `install.sh` (`--project`, `--with-humanizer`, `--ref`, eski kurulumu yedekler).
-- Repo adı `verimor-whatsapp-migration-skill`; claude.ai zip'i `verimor-whatsapp.zip`.
+- Repo adı `sms-to-whatsapp-migration-skill`; claude.ai zip'i `verimor-whatsapp.zip`.
 
 ## 1.0.0 (2026-11-23)
 
